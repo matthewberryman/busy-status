@@ -1,2 +1,2 @@
 # busy-status
-busy status indicator using neopixels
+busy status indicator using pixels
