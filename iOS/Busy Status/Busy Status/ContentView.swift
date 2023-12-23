@@ -31,7 +31,7 @@ struct ContentView: View {
         .padding()
         .onAppear {
             INFocusStatusCenter.default.requestAuthorization { status in
-                print("status")
+                print(status)
             }
             let center = UNUserNotificationCenter.current()
             center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
