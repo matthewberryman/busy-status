@@ -101,7 +101,9 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     
     func sendCommand(status: Bool) {
         let cmd = Data([UInt8(truncating: status as NSNumber)])
-        board!.writeValue(cmd, for: characteristic!, type: .withResponse)
+        if (characteristic != nil) {
+            board!.writeValue(cmd, for: characteristic!, type: .withResponse)
+        }
     }
     
 }
