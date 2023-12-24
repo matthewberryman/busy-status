@@ -19,13 +19,10 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: "globe")
+            Image(systemName: "antenna.radiowaves.left.and.right.circle")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
-            Button(action: connect) {
-                Label("Connect", systemImage: "arrow.up")
-            }
+            Text("Please leave open. Use the app by changing your focus status.")
             
         }
         .padding()
@@ -49,15 +46,12 @@ struct ContentView: View {
         }
     }
     
-    func connect() {
-        ble.connectToSensor();
-    }
     
     func pollingAction() {
         // Perform your polling logic here
         print("Polling...")
         if (!ble.isConnected) {
-            ble.connectToSensor();
+            ble.scanForSensor();
         } else {
             print(!INFocusStatusCenter.default.focusStatus.isFocused!)
             ble.sendCommand(status: !INFocusStatusCenter.default.focusStatus.isFocused!)

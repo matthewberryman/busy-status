@@ -36,7 +36,7 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     }
     
     
-    func connectToSensor() {
+    func scanForSensor() {
         print("scanning")
         let serviceUUIDs: [CBUUID] = [ledServiceUUID]
         myCentral.scanForPeripherals(withServices: serviceUUIDs, options: nil)
