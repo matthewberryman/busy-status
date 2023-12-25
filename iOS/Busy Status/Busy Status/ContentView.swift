@@ -25,9 +25,9 @@ struct ContentView: View {
             Image(systemName: "antenna.radiowaves.left.and.right.circle")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            if (ble.isAllowed()) {
-                Text("Please leave open. Use the app by changing your focus status.")
-            } else {
+            if (ble.isAllowed() && isFocusAuthorized && isNotificationAuthorized) {
+                Text("Use the app by changing your focus status.")
+            } else if (!ble.isAllowed()){
                 Text("Bluetooth permission is currently disabled for the application. Enable Bluetooth from the application settings.")
             }
             if (!isNotificationAuthorized) {
