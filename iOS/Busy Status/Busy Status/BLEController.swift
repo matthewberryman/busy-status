@@ -22,6 +22,7 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     let ArduinoUUID = CBUUID(string: "1A2E813E-1C13-4B82-9A56-98D622785B6D")
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        
         if central.state == .poweredOn {
             isSwitchedOn = true
         }
@@ -35,6 +36,9 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
         myCentral = CBCentralManager(delegate: self, queue: nil)
     }
     
+    func isAllowed() -> Bool {
+        return CBCentralManager.authorization == .allowedAlways
+    }
     
     func scanForSensor() {
         print("scanning")
