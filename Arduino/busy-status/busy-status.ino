@@ -3,34 +3,28 @@
 ArduinoLEDMatrix matrix;
 
 const uint32_t happy[] = {
-    0x19819,
-    0x80000001,
-    0x81f8000
+  0x19819,
+  0x80000001,
+  0x81f8000
 };
 
-uint8_t frame[8][12] = {
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+const uint32_t blank[] = {
+  0x00,
+  0x00,
+  0x00
 };
 
-
-BLEService ledService("180A"); // BLE LED Service
+BLEService ledService("180F"); // BLE LED Service
 
 // BLE LED Switch Characteristic - custom 128-bit UUID, read and writable by central
-BLEByteCharacteristic switchCharacteristic("2A57", BLERead | BLEWrite);
+BLEByteCharacteristic switchCharacteristic("2A58", BLERead | BLEWrite);
 
 void setup() {
   Serial.begin(115200);
   matrix.begin();
   while (!Serial);
 
-  matrix.renderBitmap(frame, 8, 12);
+  matrix.loadFrame(blank);
 
   // begin initialization
   if (!BLE.begin()) {
@@ -67,7 +61,7 @@ void loop() {
     Serial.print("Connected to central: ");
     // print the central's MAC address:
     Serial.println(central.address());
-    matrix.renderBitmap(frame, 8, 12);
+    matrix.loadFrame(blank);
 
     // while the central is still connected to peripheral:
     while (central.connected()) {
@@ -81,7 +75,7 @@ void loop() {
             matrix.loadFrame(happy);
             break;
           default:
-            matrix.renderBitmap(frame, 8, 12);
+            matrix.loadFrame(blank);
             break;
         }
       }
@@ -90,6 +84,6 @@ void loop() {
     // when the central disconnects, print it out:
     Serial.print(F("Disconnected from central: "));
     Serial.println(central.address());
-    //matrix.renderBitmap(frame, 8, 12);
+    matrix.loadFrame(blank);
   }
 }
