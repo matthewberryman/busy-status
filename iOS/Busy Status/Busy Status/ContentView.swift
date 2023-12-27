@@ -21,24 +21,27 @@ struct ContentView: View {
     @State private var ble: BLEController = BLEController()
     
     var body: some View {
-        VStack {
-            Image(systemName: "antenna.radiowaves.left.and.right.circle")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            if (ble.isAllowed() && isFocusAuthorized && isNotificationAuthorized) {
-                Text("Use the app by changing your focus status.")
-            } else if (!ble.isAllowed()){
-                Text("Bluetooth permission is currently disabled for the application. Enable Bluetooth from the application settings.")
-            }
-            if (!isNotificationAuthorized) {
-                Text("You need to enable notifications for the application to work. Please enable in settings.")
-            }
-            if (!isFocusAuthorized) {
-                Text("You need to grant permissions to check focus for the application to work. Please enable in settings.")
-            }
-        }
-        .padding()
-        .onAppear {
+        NavigationView {
+            VStack {
+                Image(systemName: "antenna.radiowaves.left.and.right.circle")
+                    .imageScale(.large)
+                    .foregroundStyle(.tint)
+                if (ble.isAllowed() && isFocusAuthorized && isNotificationAuthorized) {
+                    Text("Use the app by changing your focus status.")
+                } else if (!ble.isAllowed()){
+                    Text("Bluetooth permission is currently disabled for the application. Enable Bluetooth from the application settings.")
+                }
+                if (!isNotificationAuthorized) {
+                    Text("You need to enable notifications for the application to work. Please enable in settings.")
+                }
+                if (!isFocusAuthorized) {
+                    Text("You need to grant permissions to check focus for the application to work. Please enable in settings.")
+                }
+                NavigationLink(destination: UUIDEditorView(ble: $ble)) {
+                    Text("Set IDs of device")
+                }
+            }.padding()
+        }.onAppear {
             INFocusStatusCenter.default.requestAuthorization { status in
                 print(status)
                 switch status {
@@ -63,7 +66,6 @@ struct ContentView: View {
             }
         }
     }
-
     
     func pollingAction() {
         // Perform your polling logic here
@@ -71,14 +73,11 @@ struct ContentView: View {
         if (!ble.isConnected && ble.isAllowed()) {
             ble.scanForSensor()
         } else {
-            if (isFocusAuthorized && isNotificationAuthorized) {
+            if (ble.isAllowed() && isFocusAuthorized && isNotificationAuthorized) {
                 ble.sendCommand(status: !INFocusStatusCenter.default.focusStatus.isFocused!)
             }
         }
-        
-        
     }
-    
 }
 
 #Preview {

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		34A590642B3666210067AE3D /* PollingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A590632B3666210067AE3D /* PollingManager.swift */; };
+		34B61C7F2B3ACEB300DE0088 /* UUIDEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B61C7E2B3ACEB300DE0088 /* UUIDEditorView.swift */; };
 		34FDE7442B341A2D00514CDE /* Busy_StatusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FDE7432B341A2D00514CDE /* Busy_StatusApp.swift */; };
 		34FDE7462B341A2D00514CDE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FDE7452B341A2D00514CDE /* ContentView.swift */; };
 		34FDE7482B341A2D00514CDE /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FDE7472B341A2D00514CDE /* Board.swift */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		343C87D22B36B68200EFA39D /* Busy Status.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Busy Status.entitlements"; sourceTree = "<group>"; };
 		34A590632B3666210067AE3D /* PollingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollingManager.swift; sourceTree = "<group>"; };
+		34B61C7E2B3ACEB300DE0088 /* UUIDEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDEditorView.swift; sourceTree = "<group>"; };
 		34FDE7402B341A2D00514CDE /* Busy Status.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Busy Status.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FDE7432B341A2D00514CDE /* Busy_StatusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Busy_StatusApp.swift; sourceTree = "<group>"; };
 		34FDE7452B341A2D00514CDE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				34FDE7712B341FF700514CDE /* Busy-Status-Info.plist */,
 				34FDE7432B341A2D00514CDE /* Busy_StatusApp.swift */,
 				34FDE7452B341A2D00514CDE /* ContentView.swift */,
+				34B61C7E2B3ACEB300DE0088 /* UUIDEditorView.swift */,
 				34A590632B3666210067AE3D /* PollingManager.swift */,
 				34FDE76F2B341F6600514CDE /* BLEController.swift */,
 				34FDE7472B341A2D00514CDE /* Board.swift */,
@@ -272,6 +275,7 @@
 			files = (
 				34FDE7462B341A2D00514CDE /* ContentView.swift in Sources */,
 				34A590642B3666210067AE3D /* PollingManager.swift in Sources */,
+				34B61C7F2B3ACEB300DE0088 /* UUIDEditorView.swift in Sources */,
 				34FDE7702B341F6600514CDE /* BLEController.swift in Sources */,
 				34FDE7482B341A2D00514CDE /* Board.swift in Sources */,
 				34FDE7442B341A2D00514CDE /* Busy_StatusApp.swift in Sources */,

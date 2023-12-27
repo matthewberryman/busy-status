@@ -16,10 +16,8 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     var characteristic: CBCharacteristic?
     var myCentral: CBCentralManager!
     
-    let ledServiceUUID = CBUUID(string: "180A")
-    let ledServiceCharacteristicUUID = CBUUID(string: "2A57")
-    
-    let ArduinoUUID = CBUUID(string: "1A2E813E-1C13-4B82-9A56-98D622785B6D")
+    @Published var ledServiceUUID: CBUUID? = CBUUID(string: "180A")
+    @Published var ledServiceCharacteristicUUID: CBUUID? = CBUUID(string: "2A57")
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         
@@ -36,16 +34,26 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
         myCentral = CBCentralManager(delegate: self, queue: nil)
     }
     
+    func setLedServiceUUID(UUID: String) {
+        ledServiceUUID = CBUUID(string: UUID)
+    }
+    
+    func setLedServiceCharacteristicUUID(UUID: String) {
+        ledServiceCharacteristicUUID = CBUUID(string: UUID)
+    }
+    
     func isAllowed() -> Bool {
         return CBCentralManager.authorization == .allowedAlways
     }
     
     func scanForSensor() {
         print("scanning")
-        let serviceUUIDs: [CBUUID] = [ledServiceUUID]
-        myCentral.scanForPeripherals(withServices: serviceUUIDs, options: nil)
+        if (ledServiceUUID != nil && ledServiceCharacteristicUUID != nil) {
+            let serviceUUIDs: [CBUUID] = [ledServiceUUID!]
+            myCentral.scanForPeripherals(withServices: serviceUUIDs, options: nil)
+        }
     }
-    
+        
     func centralManager(
         _ central: CBCentralManager,
         didDiscover peripheral: CBPeripheral,
@@ -63,7 +71,7 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     ) {
         peripheral.delegate = self //
         //board = peripheral
-        board!.discoverServices([ledServiceUUID])
+        board!.discoverServices([ledServiceUUID!])
         isConnected = true
     }
     
@@ -79,9 +87,8 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
             return
         }
         else if let services = peripheral.services as [CBService]? {
-
             for service in services{
-                peripheral.discoverCharacteristics([ledServiceCharacteristicUUID], for: service)
+                peripheral.discoverCharacteristics([ledServiceCharacteristicUUID!], for: service)
             }
         }
         print("==>",peripheral.services!)
