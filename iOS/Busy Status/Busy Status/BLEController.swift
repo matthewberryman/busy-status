@@ -16,8 +16,8 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     var characteristic: CBCharacteristic?
     var myCentral: CBCentralManager!
     
-    @Published var ledServiceUUID: CBUUID? = CBUUID(string: "180A")
-    @Published var ledServiceCharacteristicUUID: CBUUID? = CBUUID(string: "2A57")
+    @Published var ledServiceUUID: CBUUID? = CBUUID(string: "180F")
+    @Published var ledServiceCharacteristicUUID: CBUUID? = CBUUID(string: "2A58")
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         
