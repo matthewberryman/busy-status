@@ -125,13 +125,15 @@ private class BlinkyManagerImpl(
                 BluetoothGattCharacteristic.PROPERTY_WRITE
             )
             // Get the Button characteristic.
-            buttonCharacteristic = getCharacteristic(
+           /*buttonCharacteristic = getCharacteristic(
                 BlinkySpec.BLINKY_BUTTON_CHARACTERISTIC_UUID,
                 BluetoothGattCharacteristic.PROPERTY_NOTIFY
             )
 
+            */
+
             // Return true if all required characteristics are supported.
-            return ledCharacteristic != null && buttonCharacteristic != null
+            return ledCharacteristic != null
         }
         return false
     }
