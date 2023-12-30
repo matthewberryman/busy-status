@@ -11,21 +11,25 @@ import Intents
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var boards: [Board]
+    @Query private var board: [Board]
     
     @ObservedObject private var pollingManager = PollingManager<String>(pollingInterval: 2.0)
     
     @State private var isFocusAuthorized = false
     @State private var isNotificationAuthorized = false
     
-    @State private var ble: BLEController = BLEController()
+    @ObservedObject private var ble: BLEController = BLEController()
     
     var body: some View {
         NavigationView {
             VStack {
-                Image(systemName: "antenna.radiowaves.left.and.right.circle")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
+                Button {
+                    ble.scanForSensor()
+                } label: {
+                    Image(systemName: "antenna.radiowaves.left.and.right.circle").font(.system(size: 24))
+                }.buttonStyle(.borderedProminent)
+        
+                
                 if (ble.isAllowed() && isFocusAuthorized && isNotificationAuthorized) {
                     Text("Use the app by changing your focus status.")
                 } else if (!ble.isAllowed()){
@@ -37,9 +41,14 @@ struct ContentView: View {
                 if (!isFocusAuthorized) {
                     Text("You need to grant permissions to check focus for the application to work. Please enable in settings.")
                 }
-                NavigationLink(destination: UUIDEditorView(ble: $ble)) {
-                    Text("Set IDs of device")
+                List(ble.peripherals, id: \.self) {peripheral in
+                    Button {
+                        ble.connect(peripheral: peripheral)
+                    } label: {
+                        Text("\(peripheral.name!)")
+                    }
                 }
+            
             }.padding()
         }.onAppear {
             INFocusStatusCenter.default.requestAuthorization { status in
@@ -70,12 +79,8 @@ struct ContentView: View {
     func pollingAction() {
         // Perform your polling logic here
         print("Polling...")
-        if (!ble.isConnected && ble.isAllowed()) {
-            ble.scanForSensor()
-        } else {
-            if (ble.isAllowed() && isFocusAuthorized && isNotificationAuthorized) {
-                ble.sendCommand(status: !INFocusStatusCenter.default.focusStatus.isFocused!)
-            }
+        if (ble.isAllowed() && ble.isConnected && isFocusAuthorized && isNotificationAuthorized) {
+            ble.sendCommand(status: !INFocusStatusCenter.default.focusStatus.isFocused!)
         }
     }
 }

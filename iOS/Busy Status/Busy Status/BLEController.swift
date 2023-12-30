@@ -12,12 +12,13 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     
     @Published var isSwitchedOn = false
     @Published var isConnected = false
+    @Published var peripherals: [CBPeripheral]
     var board: CBPeripheral?
     var characteristic: CBCharacteristic?
     var myCentral: CBCentralManager!
     
-    @Published var ledServiceUUID: CBUUID? = CBUUID(string: "180F")
-    @Published var ledServiceCharacteristicUUID: CBUUID? = CBUUID(string: "2A58")
+    @Published var ledServiceUUID: CBUUID = CBUUID(string: "180A")
+    @Published var ledServiceCharacteristicUUID: CBUUID = CBUUID(string: "2A57")
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         
@@ -30,17 +31,11 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     }
     
     override init() {
+        self.peripherals = []
         super.init()
         myCentral = CBCentralManager(delegate: self, queue: nil)
     }
     
-    func setLedServiceUUID(UUID: String) {
-        ledServiceUUID = CBUUID(string: UUID)
-    }
-    
-    func setLedServiceCharacteristicUUID(UUID: String) {
-        ledServiceCharacteristicUUID = CBUUID(string: UUID)
-    }
     
     func isAllowed() -> Bool {
         return CBCentralManager.authorization == .allowedAlways
@@ -48,10 +43,8 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     
     func scanForSensor() {
         print("scanning")
-        if (ledServiceUUID != nil && ledServiceCharacteristicUUID != nil) {
-            let serviceUUIDs: [CBUUID] = [ledServiceUUID!]
-            myCentral.scanForPeripherals(withServices: serviceUUIDs, options: nil)
-        }
+        let serviceUUIDs: [CBUUID] = [ledServiceUUID]
+        myCentral.scanForPeripherals(withServices: serviceUUIDs, options: nil)
     }
         
     func centralManager(
@@ -60,9 +53,10 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
         advertisementData: [String : Any],
         rssi RSSI: NSNumber
     ) {
-        print("connecting")
-        myCentral.connect(peripheral)
-        board = peripheral
+        for existing in peripherals {
+            if existing.identifier == peripheral.identifier { return }
+        }
+        peripherals.append(peripheral)
     }
     
     func centralManager(
@@ -71,7 +65,7 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     ) {
         peripheral.delegate = self //
         //board = peripheral
-        board!.discoverServices([ledServiceUUID!])
+        board!.discoverServices([ledServiceUUID])
         isConnected = true
     }
     
@@ -88,7 +82,7 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
         }
         else if let services = peripheral.services as [CBService]? {
             for service in services{
-                peripheral.discoverCharacteristics([ledServiceCharacteristicUUID!], for: service)
+                peripheral.discoverCharacteristics([ledServiceCharacteristicUUID], for: service)
             }
         }
         print("==>",peripheral.services!)
@@ -115,6 +109,11 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
         if (characteristic != nil) {
             board!.writeValue(cmd, for: characteristic!, type: .withResponse)
         }
+    }
+    
+    func connect(peripheral: CBPeripheral) {
+        board = peripheral
+        myCentral.connect(peripheral)
     }
     
 }
