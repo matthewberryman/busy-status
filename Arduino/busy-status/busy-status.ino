@@ -14,10 +14,10 @@ const uint32_t blank[] = {
   0x00
 };
 
-BLEService ledService("180F"); // BLE LED Service
+BLEService ledService("180A"); // BLE LED Service
 
 // BLE LED Switch Characteristic - custom 128-bit UUID, read and writable by central
-BLEByteCharacteristic switchCharacteristic("2A58", BLERead | BLEWrite);
+BLEByteCharacteristic switchCharacteristic("2A57", BLERead | BLEWrite);
 
 void setup() {
   Serial.begin(115200);
