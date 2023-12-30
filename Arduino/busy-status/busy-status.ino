@@ -33,8 +33,9 @@ void setup() {
     while (1);
   }
 
-  // set advertised local name and service UUID:
-  BLE.setLocalName("Uno R4 BLE Sense");
+  // set advertised name and service UUID:
+  BLE.setDeviceName("Matthew's Busy Status Device");
+  BLE.setLocalName("Matthew's Busy Status Device");
   BLE.setAdvertisedService(ledService);
 
   // add the characteristic to the service
