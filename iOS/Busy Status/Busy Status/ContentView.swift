@@ -10,9 +10,6 @@ import SwiftData
 import Intents
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var board: [Board]
-    
     @ObservedObject private var pollingManager = PollingManager<String>(pollingInterval: 2.0)
     
     @State private var isFocusAuthorized = false
@@ -23,16 +20,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Button {
-                    ble.scanForSensor()
-                } label: {
-                    Image(systemName: "antenna.radiowaves.left.and.right.circle").font(.system(size: 24))
-                }.buttonStyle(.borderedProminent)
-        
-                
-                if (ble.isAllowed() && isFocusAuthorized && isNotificationAuthorized) {
-                    Text("Use the app by changing your focus status.")
-                } else if (!ble.isAllowed()){
+                if (!ble.isAllowed()){
                     Text("Bluetooth permission is currently disabled for the application. Enable Bluetooth from the application settings.")
                 }
                 if (!isNotificationAuthorized) {
@@ -41,6 +29,18 @@ struct ContentView: View {
                 if (!isFocusAuthorized) {
                     Text("You need to grant permissions to check focus for the application to work. Please enable in settings.")
                 }
+                Button {
+                    if (ble.isAllowed()) {
+                        if (!ble.isConnected) {
+                            ble.scanForSensor()
+                        } else {
+                            ble.disconnect()
+                        }
+                    }
+                } label: {
+                    Image(systemName: "antenna.radiowaves.left.and.right.circle").font(.system(size: 24))
+                }.buttonStyle(.borderedProminent)
+        
                 List(ble.peripherals, id: \.self) {peripheral in
                     Button {
                         ble.connect(peripheral: peripheral)
@@ -87,5 +87,4 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Board.self, inMemory: true)
 }

@@ -116,4 +116,11 @@ class BLEController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
         myCentral.connect(peripheral)
     }
     
+    func disconnect() {
+        if (board != nil) {
+            myCentral.cancelPeripheralConnection(board!)
+            board = nil
+        }
+    }
+    
 }

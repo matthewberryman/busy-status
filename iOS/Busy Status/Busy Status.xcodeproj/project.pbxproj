@@ -10,7 +10,6 @@
 		34A590642B3666210067AE3D /* PollingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A590632B3666210067AE3D /* PollingManager.swift */; };
 		34FDE7442B341A2D00514CDE /* Busy_StatusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FDE7432B341A2D00514CDE /* Busy_StatusApp.swift */; };
 		34FDE7462B341A2D00514CDE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FDE7452B341A2D00514CDE /* ContentView.swift */; };
-		34FDE7482B341A2D00514CDE /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FDE7472B341A2D00514CDE /* Board.swift */; };
 		34FDE74A2B341A2D00514CDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34FDE7492B341A2D00514CDE /* Assets.xcassets */; };
 		34FDE74D2B341A2D00514CDE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34FDE74C2B341A2D00514CDE /* Preview Assets.xcassets */; };
 		34FDE7572B341A2E00514CDE /* Busy_StatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FDE7562B341A2E00514CDE /* Busy_StatusTests.swift */; };
@@ -42,7 +41,6 @@
 		34FDE7402B341A2D00514CDE /* Busy Status.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Busy Status.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FDE7432B341A2D00514CDE /* Busy_StatusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Busy_StatusApp.swift; sourceTree = "<group>"; };
 		34FDE7452B341A2D00514CDE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		34FDE7472B341A2D00514CDE /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		34FDE7492B341A2D00514CDE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		34FDE74C2B341A2D00514CDE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		34FDE7522B341A2E00514CDE /* Busy StatusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Busy StatusTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,7 +106,6 @@
 				34FDE7452B341A2D00514CDE /* ContentView.swift */,
 				34A590632B3666210067AE3D /* PollingManager.swift */,
 				34FDE76F2B341F6600514CDE /* BLEController.swift */,
-				34FDE7472B341A2D00514CDE /* Board.swift */,
 				34FDE7492B341A2D00514CDE /* Assets.xcassets */,
 				34FDE74B2B341A2D00514CDE /* Preview Content */,
 			);
@@ -273,7 +270,6 @@
 				34FDE7462B341A2D00514CDE /* ContentView.swift in Sources */,
 				34A590642B3666210067AE3D /* PollingManager.swift in Sources */,
 				34FDE7702B341F6600514CDE /* BLEController.swift in Sources */,
-				34FDE7482B341A2D00514CDE /* Board.swift in Sources */,
 				34FDE7442B341A2D00514CDE /* Busy_StatusApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
