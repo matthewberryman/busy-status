@@ -20,7 +20,7 @@ dependencyResolutionManagement {
         }
     }
 }
-rootProject.name = "nRF Blinky"
+rootProject.name = "Busy Status"
 
 include(":app")
 include(":scanner")
