@@ -60,16 +60,7 @@ internal fun BlinkyScreen(
                 }
                 Blinky.State.READY -> {
                     val ledState by viewModel.ledState.collectAsStateWithLifecycle()
-                    val buttonState by viewModel.buttonState.collectAsStateWithLifecycle()
 
-                    BlinkyControlView(
-                        ledState = ledState,
-                        onStateChanged = { viewModel.turnLed(it) },
-                        modifier = Modifier
-                            .widthIn(max = 460.dp)
-                            .verticalScroll(rememberScrollState())
-                            .padding(16.dp)
-                    )
                 }
                 Blinky.State.NOT_AVAILABLE -> {
                     DeviceDisconnectedView(

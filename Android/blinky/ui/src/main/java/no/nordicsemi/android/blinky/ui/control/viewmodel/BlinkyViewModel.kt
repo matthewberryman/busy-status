@@ -1,7 +1,14 @@
 package no.nordicsemi.android.blinky.ui.control.viewmodel
 
 import android.app.Application
+import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.provider.Settings
+import androidx.core.os.postDelayed
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +32,7 @@ import javax.inject.Named
  */
 @HiltViewModel
 class BlinkyViewModel @Inject constructor(
-    @ApplicationContext context: Context,
+    @ApplicationContext private val context: Context,
     private val repository: BlinkyRepository,
     @Named("deviceName") val deviceName: String,
 ) : AndroidViewModel(context as Application) {
@@ -34,13 +41,26 @@ class BlinkyViewModel @Inject constructor(
     /** The LED state. */
     val ledState = repository.loggedLedState
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
-    /** The button state. */
-    val buttonState = repository.loggedButtonState
-        .stateIn(viewModelScope, SharingStarted.Lazily, false)
+
+    val UPDATE_INTERVAL = 1000L
+
+    //Handler to repeat update
+    val updateHandler = Handler(Looper.getMainLooper());
 
     init {
         // In this sample we want to connect to the device as soon as the view model is created.
         connect()
+    }
+
+    //runnable to update widget
+    val updateRunnable: Runnable = Runnable {
+        run {
+            //Update UI
+            turnLed(getDoNotDisturb())
+            // Re-run it after the update interval
+            updateHandler.postDelayed(updateRunnable, UPDATE_INTERVAL)
+        }
+
     }
 
     /**
@@ -53,6 +73,10 @@ class BlinkyViewModel @Inject constructor(
             // Bluetooth is disabled, etc.
             // The exception will be caught by the exception handler and will be ignored.
             repository.connect()
+
+            updateHandler.postDelayed(updateRunnable, UPDATE_INTERVAL)
+
+
         }
     }
 
@@ -80,4 +104,27 @@ class BlinkyViewModel @Inject constructor(
         super.onCleared()
         repository.release()
     }
+
+    // Check if the notification policy access has been granted for the app.
+    private fun checkNotificationPolicy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!(context.getSystemService(android.content.Context.NOTIFICATION_SERVICE) as NotificationManager)
+                    .isNotificationPolicyAccessGranted
+            ) {
+                val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+                context.startActivity(intent)
+            }
+        }
+    }
+
+    private fun getDoNotDisturb(): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            println((context.getSystemService(android.content.Context.NOTIFICATION_SERVICE) as NotificationManager).currentInterruptionFilter)
+        }
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            (context.getSystemService(android.content.Context.NOTIFICATION_SERVICE) as NotificationManager).currentInterruptionFilter == NotificationManager.INTERRUPTION_FILTER_ALL
+        } else false
+    }
 }
+
