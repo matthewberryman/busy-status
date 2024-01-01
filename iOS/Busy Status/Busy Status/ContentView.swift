@@ -29,23 +29,23 @@ struct ContentView: View {
                 if (!isFocusAuthorized) {
                     Text("You need to grant permissions to check focus for the application to work. Please enable in settings.")
                 }
-                Button {
-                    if (ble.isAllowed()) {
+                if (ble.isAllowed() && isFocusAuthorized && isNotificationAuthorized) {
+                    Button {
                         if (!ble.isConnected) {
                             ble.scanForSensor()
                         } else {
                             ble.disconnect()
                         }
-                    }
-                } label: {
-                    Image(systemName: "antenna.radiowaves.left.and.right.circle").font(.system(size: 24))
-                }.buttonStyle(.borderedProminent)
-        
-                List(ble.peripherals, id: \.self) {peripheral in
-                    Button {
-                        ble.connect(peripheral: peripheral)
                     } label: {
-                        Text("\(peripheral.name!)")
+                        Image(systemName: "antenna.radiowaves.left.and.right.circle").font(.system(size: 24))
+                    }.buttonStyle(.borderedProminent)
+                    
+                    List(ble.peripherals, id: \.self) {peripheral in
+                        Button {
+                            ble.connect(peripheral: peripheral)
+                        } label: {
+                            Text("\(peripheral.name!)")
+                        }
                     }
                 }
             
