@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
-import androidx.core.os.postDelayed
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
