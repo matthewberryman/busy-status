@@ -3,13 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>BT</string>
+	<string>App uses Bluetooth to communicate focus status to a device</string>
 	<key>NSFocusStatusUsageDescription</key>
-	<string>BT</string>
+	<string>App uses Bluetooth to communicate focus status to a device</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
-		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 </dict>
