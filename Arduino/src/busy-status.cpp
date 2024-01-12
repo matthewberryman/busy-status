@@ -1,3 +1,5 @@
+#include <Arduino.h>
+#include <WiFiS3.h>
 #include <ArduinoBLE.h>
 #include "Arduino_LED_Matrix.h"
 ArduinoLEDMatrix matrix;
@@ -20,7 +22,7 @@ BLEService ledService("180A"); // BLE LED Service
 BLEByteCharacteristic switchCharacteristic("2A57", BLERead | BLEWrite);
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   matrix.begin();
   while (!Serial);
 
